@@ -3,7 +3,7 @@ from model import Base, Student
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///students.db')
+engine = create_engine('sqlite:///students.db', connect_args={'check_same_thread':False})
 Base.metadata.create_all(engine)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -65,6 +65,7 @@ def update_lab_status(name, finished_lab):
 		name=name).first()
 	student_object.finished_lab = finished_lab
 	session.commit()
+
 
 def query_by_id(student_id):
     student = session.query(Student).filter_by(

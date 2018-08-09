@@ -24,4 +24,15 @@ def delete_stu(student_id):
 	if request.method == 'POST':
 		delete_student_id(student_id)
 		return(redirect(url_for('home')))
+
+
+@app.route('/edit/<int:student_id>',methods=['POST','GET'])
+def edit_stu(student_id):
+	if request.method=='POST':
+		student=query_by_id(student_id)
+		update_lab_status(student.name,request.form['finishedlab'])
+		return(redirect(url_for('display_student', student_id=student_id)))
+	if request.method=='GET':
+		return render_template('edit.html')
+
 app.run(debug=True)

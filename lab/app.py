@@ -1,5 +1,5 @@
 from databases import *
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 
 @app.route('/')
@@ -16,7 +16,12 @@ def add_student_route():
 		return render_template('add.html')
 	else:
 		add_student(request.form['student_name'],
-			request.form['student_year'], False)
+			request.form['student_year'], request.form['finishedlab'])
 		return render_template('add.html')
 
+@app.route('/delete/<int:student_id>', methods=['POST'])
+def delete_stu(student_id):
+	if request.method == 'POST':
+		delete_student_id(student_id)
+		return(redirect(url_for('home')))
 app.run(debug=True)
